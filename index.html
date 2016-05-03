@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html ng-app="test">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>ya-cryptopro-scp-service demo</title>
+
+</head>
+<body ng-controller="main">
+	<button type="btn" ng-click="click()">Sign('Hello World')</button>
+	<button type="btn" ng-click="click2()">GetCertsList()</button>
+	<br />
+	<br />
+	<input type="file" onchange="angular.element(this).scope().signFile(this)"></input>
+	<br />
+	<ul ng-repeat="cert in certs">
+		<li>{{cert.title}}</li>
+	</ul>
+	<br />
+	<textarea type="text" readonly style="height: 600px; width: 600px">{{signature}}</textarea>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script type="text/javascript" src="build/yaCsp.min.js"></script>
+	<!-- Необходимо подключать чтобы активировать расширение для браузера -->
+  <script language="javascript" src="build/cadesplugin_api.js"></script>
+  <script type="text/javascript">
+  (function() {
+    'use strict';
+    angular.module('test', ['ya.csp'])
+			.controller('main', ['$scope', 'ya.csp.WrapService', function mainCtrl(scope, csp) {
+				// Пример подписания текста
+				scope.click = function() {
+					csp.sign().then(function(list) {
+						scope.signature = list;
+						scope.$apply();
+					});
+				}
+				// Пример получения списка сертификатов
+				scope.click2 = function() {
+					csp.getCertsList().then(function(list) {
+						scope.certs = list;
+						scope.$apply();
+					});
+				}
+				// Пример подписания файла
+				scope.signFile = function(fileInput) {
+					var file = fileInput.files[0];
+					var reader = new FileReader();
+					reader.onload = function(file) {
+						csp.sign(file.target.result)
+							.then(function(signData) {
+								scope.signature = signData;
+								scope.$apply();
+							});
+					}
+					reader.readAsText(file);
+				}
+			}]);
+    })();
+  </script>
+</body>
+</html>
