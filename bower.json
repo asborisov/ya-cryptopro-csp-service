@@ -1,0 +1,16 @@
+{
+  "name": "ya-cryptopro-scp-service",
+  "description": "Angular service for CryptoPro plaugin",
+  "main": [
+    "build/cadesplugin_api.js",
+    "build/yaCsp.min.js"
+  ],
+  "dependencies": {
+    "angular": "^1.5.5"
+  },
+  "authors": [
+    "Artem Borisov <timan.b@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": false
+}
