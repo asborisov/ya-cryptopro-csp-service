@@ -12,5 +12,6 @@
     "Artem Borisov <timan.b@gmail.com>"
   ],
   "license": "MIT",
+  "ignore": [],
   "private": false
 }
